@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { Pet } from '../../domain/pet/pet';
-import PetRepository from '../../application/repositories/pet.repository';
+import { Pet } from '../../core/domain/pet/pet';
+import PetRepository from '../../core/application/repositories/pet.repository';
 import { MongoPet, PetDocument } from '../mongo/schemas/pet.schema';
 import { InjectModel } from '@nestjs/mongoose';
 import { isValidObjectId, Model } from 'mongoose';
@@ -35,6 +35,10 @@ export class MongoPetRepository implements PetRepository {
         latitude: document.location.coordinates[1],
       },
     });
+  }
+
+  async remove(id: string) {
+    await this.petModel.findByIdAndRemove(id);
   }
 
   async store(pet: Pet) {

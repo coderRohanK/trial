@@ -1,26 +1,21 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import {
-  AdoptionSchema,
-  MongoAdoption,
-} from '../../adoption/repositories/mongodb/adoption-mongo.schema';
-import {
   MongoUser,
   UserSchema,
 } from '../../user/repositories/mongodb/user-mongo.schema';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { MongoDataServices } from './mongo-data.services';
-import { DataServices } from '../../core/abstracts/data-services.abstract';
 import { MongoPet, PetSchema } from '../../infra/mongo/schemas/pet.schema';
 import { MongoPetRepository } from '../../infra/repositories/mongo-pet.repository';
-import { PET_REPOSITORY } from '../../application/repositories/pet.repository';
-import { PET_DAO } from '../../application/dao/pet.dao';
+import { PET_REPOSITORY } from '../../core/application/repositories/pet.repository';
+import { PET_DAO } from '../../core/application/dao/pet.dao';
 import { MongoPetDAO } from '../../infra/dao/mongo-pet.dao';
+import { UserRepository } from '../../user/repositories/user-repository.interface';
+import { UserMongoDBRepository } from '../../user/repositories/mongodb/user-mongo.repository';
 
 @Module({
   imports: [
     MongooseModule.forFeature([
-      { name: MongoAdoption.name, schema: AdoptionSchema },
       { name: MongoUser.name, schema: UserSchema },
       { name: MongoPet.name, schema: PetSchema },
     ]),
@@ -35,8 +30,8 @@ import { MongoPetDAO } from '../../infra/dao/mongo-pet.dao';
   ],
   providers: [
     {
-      provide: DataServices,
-      useClass: MongoDataServices,
+      provide: UserRepository,
+      useClass: UserMongoDBRepository,
     },
     {
       provide: PET_REPOSITORY,
@@ -47,6 +42,6 @@ import { MongoPetDAO } from '../../infra/dao/mongo-pet.dao';
       useClass: MongoPetDAO,
     },
   ],
-  exports: [DataServices, PET_REPOSITORY, PET_DAO],
+  exports: [UserRepository, PET_REPOSITORY, PET_DAO],
 })
 export class MongoDataServicesModule {}
