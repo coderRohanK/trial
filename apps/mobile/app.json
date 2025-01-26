@@ -29,6 +29,18 @@
     },
     "plugins": [
       [
+        "expo-build-properties",
+        {
+          "android": {
+            "newArchEnabled": true
+          },
+          "ios": {
+            "newArchEnabled": true
+          }
+        }
+      ],
+      "expo-secure-store",
+      [
         "expo-location",
         {
           "locationAlwaysAndWhenInUsePermission": "Allow animavita to use your location."
