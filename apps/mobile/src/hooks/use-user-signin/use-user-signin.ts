@@ -18,6 +18,7 @@ const useUserSignIn = () => {
       const credentials = response.data;
 
       auth.signIn(credentials);
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {}
   };
 
