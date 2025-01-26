@@ -1,18 +1,21 @@
 import { View } from 'native-base';
 
-import RegisterAdoptionForm from '@/components/register-adoption-form/adoption-form.component';
+import PetForm from '@/components/pet-form/pet-form.component';
 import SafeArea from '@/components/safe-area';
 import AppStatusBar from '@/components/status-bar/status-bar.component';
+import useLocale from '@/hooks/use-locale';
 
-const RegisterAdoption = () => {
+const RegisterPet = () => {
+  const { t } = useLocale();
+
   return (
     <View height="full">
       <SafeArea>
         <AppStatusBar />
-        <RegisterAdoptionForm />
+        <PetForm title={t('REGISTER_ADOPTION.TITLE')} />
       </SafeArea>
     </View>
   );
 };
 
-export default RegisterAdoption;
+export default RegisterPet;
