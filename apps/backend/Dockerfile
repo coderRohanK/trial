@@ -1,5 +1,5 @@
 FROM node:20.13.1 AS base
-RUN npm i -g pnpm
+RUN npm i -g pnpm@9.1.1
 
 FROM base AS dependencies
 WORKDIR /app
