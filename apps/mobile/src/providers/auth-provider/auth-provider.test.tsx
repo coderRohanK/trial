@@ -1,16 +1,17 @@
-import { render, screen, waitForElementToBeRemoved } from '@testing-library/react-native';
+import { screen, waitForElementToBeRemoved } from '@testing-library/react-native';
 import { Text } from 'react-native';
 
 import { AuthContext, AuthProvider } from '.';
 
-import { getUser } from '@/helpers/secure-store';
+import { getUserCredentials } from '@/helpers/secure-store';
+import { renderWithProviders } from '@/test/test-utils';
 
 jest.mock('@/helpers/secure-store', () => ({
-  getUser: jest.fn(() => null),
+  getUserCredentials: jest.fn(() => null),
 }));
 
-const setup = async () =>
-  render(
+const setup = async () => {
+  return renderWithProviders(
     <AuthProvider>
       <AuthContext.Consumer>
         {(value) => {
@@ -29,6 +30,7 @@ const setup = async () =>
       </AuthContext.Consumer>
     </AuthProvider>
   );
+};
 
 describe('AuthProvider native', () => {
   beforeEach(jest.clearAllMocks);
@@ -63,10 +65,9 @@ describe('AuthProvider native', () => {
 
   describe('when the token is found', () => {
     it('logs the user in by storing their token', async () => {
-      (getUser as jest.Mock).mockReturnValue({
+      (getUserCredentials as jest.Mock).mockReturnValue({
         accessToken: '123-abc',
         refreshToken: 'abc-123',
-        name: 'John',
       });
 
       setup();

@@ -1,10 +1,18 @@
+import { Coordinates } from '@animavita/types';
+import { useQuery } from '@tanstack/react-query';
 import { useEffect, useMemo, useReducer } from 'react';
 
 import AuthReducer from './auth-provider.reducer';
 import { AuthContextActions, UseAuthActions, UserPayload } from './auth-provider.types';
 
-import { getUser, removeUser, saveUser } from '@/helpers/secure-store';
+import {
+  getUserCredentials,
+  removeUserCredentials,
+  saveUserCredentials,
+} from '@/helpers/secure-store';
+import { QUERY_KEYS } from '@/services/query-keys';
 import { persistUserToken } from '@/services/sign-in';
+import { getCurrentUserInfo } from '@/services/user';
 
 const useAuthActions = (): UseAuthActions => {
   const [state, dispatch] = useReducer(AuthReducer, {
@@ -13,14 +21,32 @@ const useAuthActions = (): UseAuthActions => {
     status: 'IDLE',
   });
 
+  const userInfoQuery = useQuery({
+    queryKey: [QUERY_KEYS.getUserInfo],
+    queryFn: getCurrentUserInfo,
+    enabled: false,
+  });
+
   useEffect(() => {
     const initState = async () => {
       try {
-        const user = await getUser();
+        const tokens = await getUserCredentials();
 
-        if (user !== null) {
-          persistUserToken(user.accessToken);
-          dispatch({ type: 'SIGN_IN', payload: user });
+        if (tokens !== null) {
+          persistUserToken(tokens.accessToken);
+          const { data } = await userInfoQuery.refetch();
+
+          if (!data) {
+            await authActions.signOut();
+            return;
+          }
+
+          const { name, location } = data.data;
+
+          dispatch({
+            type: 'SIGN_IN',
+            payload: { ...tokens, name, location },
+          });
         } else {
           dispatch({ type: 'SIGN_OUT' });
         }
@@ -39,11 +65,14 @@ const useAuthActions = (): UseAuthActions => {
       signIn: async (payload: UserPayload) => {
         persistUserToken(payload.accessToken);
         dispatch({ type: 'SIGN_IN', payload });
-        await saveUser(payload);
+        await saveUserCredentials(payload);
       },
       signOut: async () => {
-        await removeUser();
+        await removeUserCredentials();
         dispatch({ type: 'SIGN_OUT' });
+      },
+      completeSignUp: (location: Coordinates) => {
+        dispatch({ type: 'SIGN_UP_COMPLETED', payload: { location } });
       },
     }),
     []
