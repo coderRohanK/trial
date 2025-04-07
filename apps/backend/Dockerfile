@@ -1,20 +1,16 @@
 FROM node:20.13.1 AS base
-RUN npm i -g pnpm@9.1.1
+RUN npm i -g pnpm@9.15.9
 
 FROM base AS dependencies
 WORKDIR /app
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+COPY apps/backend/package.json ./apps/backend/
+RUN pnpm install --frozen-lockfile
 COPY . .
-# workaround 
-# https://github.com/animavita/animavita/pull/134
-RUN rm .npmrc
-RUN mv .npmrc-default-node-linker .npmrc
-RUN pnpm install
 
-FROM dependencies as build
-RUN pnpm -r build
-
-FROM build as pruned
+FROM dependencies as pruned
 WORKDIR /app
+RUN pnpm --filter backend build
 RUN pnpm --filter backend deploy pruned
 
 FROM base as development
