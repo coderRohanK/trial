@@ -30,27 +30,29 @@ Animavita is a combination of two Latin words, ‘Animal’ and ‘Vitae’, whi
 Animavita's purpose is not to change how people use facebook to the activities described above, but to centralize the helpful information in a single application. Anyone can make an adoption request, but it doesn’t mean that the pet will be automatically adopted. It means that the person interested can talk to the person who registered the pet, allowing both sides to have a conversation, and the user to research and decide his favorite pet.
 
 ## :dizzy: **Roadmap**
-In v2, we aim to rebuild a simpler version of Animavita with a cleaner UI and a much better codebase that will make it easier for us to add new features over time and attract more and more contributors. The following epics list was thought to be completed as soon as possible to see whether the decisions made on https://github.com/animavita/animavita/discussions/120 work. Complex features such as in-app chat will be considered in the future.
+In v2, we aim to rebuild a simpler version of Animavita with a cleaner UI and a much better codebase that will make it easier for us to add new features over time and attract more and more contributors. The following epics list was thought to be completed as soon as possible to see whether the decisions made on https://github.com/animavita/animavita/discussions/120 work. Complex features such as in-app chat and push notifications will be considered in the future.
 
 ### Onboarding
--   [ ] User can sign up https://github.com/animavita/animavita/issues/234
+-   [x] User can register and log in https://github.com/animavita/animavita/issues/234
+-   [ ] User must inform their phone number and role https://github.com/animavita/animavita/issues/256
 
 ### Pet Owner
 -   [ ] Owner can post a pet for adoption https://github.com/animavita/animavita/issues/237
 -   [x] Owner can see a list of their posted pets https://github.com/animavita/animavita/issues/238
 -   [x] Owner can edit a posted pet https://github.com/animavita/animavita/issues/240
--   [ ] Owner can delete a posted pet
--   [ ] Owner can receive adoption requests
+-   [ ] Owner can delete a posted pet https://github.com/animavita/animavita/issues/259
+-   [ ] Owner can receive adoption requests https://github.com/animavita/animavita/issues/260
 -   [ ] Owner can meet adopters by calling them
--   [ ] Owner can accept adoption requests
--   [ ] Owner can deny adoption requests
+-   [ ] Owner can accept adoption requests https://github.com/animavita/animavita/issues/262
+-   [ ] Owner can deny adoption requests https://github.com/animavita/animavita/issues/263
 
 ### Pet Adopter
 -   [ ] Adopter can see a list of nearest pets for adoption (based on their location)
 -   [ ] Adopter can see pet details
 -   [ ] Adopter can like pets from the list (which will be added to the wishlist)
--   [ ] Adopter can request to adopt a pet
--   [ ] Adopter can see a list of their requested pets
+-   [ ] Adopter can request to adopt a pet https://github.com/animavita/animavita/issues/258
+-   [ ] Adopter can see a list of their requested pets https://github.com/animavita/animavita/issues/257
+-   [ ] Adopter can give up on a pet https://github.com/animavita/animavita/issues/261
 
 ### Administration
 TBD
